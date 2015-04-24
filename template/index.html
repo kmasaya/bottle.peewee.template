@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+{% for entry in entries.paginate(parameter['page'], PAGE_PER_ENTRY) %}
+<article>
+    <h4><a href="/e/{{entry.id}}/">{{entry.id}}. {{entry.title|escape}}</a></h4>
+    <h5 style="text-align: right;">{{entry.created_at.strftime( "%Y.%m.%d %H:%M")}} By.
+        {{entry.user.setting.nickname|escape}}
+        {% if entry.user == user %}
+        <form action="/remove/{{entry.id}}/" method="POST" class="inner">
+            <input type="submit" value="Remove" class="btn btn-xs btn-danger">
+        </form>
+        {% endif %}
+    </h5>
+
+    <p style="white-space: pre; margin: 1.4em;">{{entry.body|escape}}</p>
+</article>
+<hr>
+{% endfor %}
+
+{% if is_index %}
+<div style="text-align: center;">
+    {% if entries.count() %}
+    <ul class="pagination pagination-lg">
+        {% for page in range(entries.count()//PAGE_PER_ENTRY + 1) %}
+        {% if page + 1 == parameter['page'] %}
+        <li class="active">
+            {% else %}
+        <li>
+            {% endif %}
+            <a href="?page={{page + 1}}">{{page + 1}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+<div id="new">
+    <div class="jumbotron">
+
+        <h1>New Entry</h1>
+
+        <form method="POST" action="/new/">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="body">Body</label>
+                <textarea name="body" id="body" rows="5" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-lg btn-primary btn-block">
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+
+{% if is_entry %}
+<div id="responses">
+    {% if responses %}
+    <h2>Response.</h2>
+    <hr>
+    <hr>
+    {% endif %}
+    {% for response in responses %}
+    <article>
+        <h4>{{response.created_at.strftime("%Y.%m.%d %H:%M")}} By.
+            {{response.user.setting.nickname|escape}}
+            {% if response.user == user %}
+            <form action="/remove/{{response.id}}/" method="POST" class="inner">
+                <input type="submit" value="Remove" class="btn btn-xs btn-danger">
+            </form>
+            {% endif %}
+        </h4>
+
+        <p style="white-space: pre; margin: 1.4em;">{{response.body|escape}}</p>
+    </article>
+    <hr>
+    {% else %}
+    {% endfor %}
+    <div id="response">
+        <div class="jumbotron">
+            <h1>New Response</h1>
+
+            <form method="POST" action="/new/{{entries.first().id}}/">
+                <div class="form-group">
+                    <textarea name="body" rows="5" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-lg btn-primary btn-block">
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+#lean_overlay {
+  position: fixed;
+  z-index: 10;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background: #000000;
+  display: none;
+}
+#signup,
+#signin,
+#setting {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+  display: none;
+  padding: 30px;
+  width: 780px;
+}
+label {
+  display: block;
+  text-align: left;
+}
+.modal_close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: url('https://dl.dropbox.com/u/59384927/jquery/HTML/MODAL/leanmodal/1.1/modal_close.png');
+  z-index: 2;
+}
+#responses h4 {
+  text-align: right;
+}
+.footer {
+  text-align: center;
+}
+form.inner {
+  display: inline;
+}

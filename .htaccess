@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^(/.*)+index.py/
+RewriteRule ^(.*)$ index.py/$1 [PT]
